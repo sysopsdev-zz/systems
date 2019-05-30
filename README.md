@@ -9,3 +9,5 @@ The following programs request service from the kernel
 - Communications
 
 Always check the return value in a system call. Program could crash or lead to security risks. 
+
+adsh -> AdminDev shell

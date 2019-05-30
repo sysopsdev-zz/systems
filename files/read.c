@@ -27,5 +27,11 @@ int main() {
     } else {
         printf("%.*s\n", read_count, buffer);
     }
+
+    if(close(fd) < 0) {
+        printf("Error!\n");
+        exit(1);
+    }
+
     return 0;
 }
