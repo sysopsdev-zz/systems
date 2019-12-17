@@ -1,1 +1,0 @@
-Hello, Linux! Isn't C awesome?
