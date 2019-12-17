@@ -11,7 +11,7 @@ int main() {
     char buffer[100];
 
 
-    fd = open("random_text.txt", O_RDONLY, 0777);
+    fd = open("file.txt", O_RDONLY, 0777);
 
     if(fd < 0) {
         printf("Error\n");
