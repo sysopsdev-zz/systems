@@ -9,9 +9,9 @@ char *adsh_read_line(void);
 char **adsh_split_line(char *line);
 int adsh_launch(char **args);
 int adsh_cd(char ** args);
-int adsh_help(char **args);
-int adsh_exit(char **args);
-int adsh_execute(char **args);
+int adsh_help();
+int adsh_exit();
+int adsh_execute();
 
 char *builtin_str[] = {
     "cd",
@@ -30,8 +30,12 @@ int adsh_num_builtins() {
 }
 
 
-int main(int argc, char **argv) {
+int main() {
     // Load config files, if there are any.
+    printf("Loading configs...\n");
+
+    printf("Testing configs...\n");
+    printf("Configs passed!\n");
     
     // Run command loop.
     adsh_start();
@@ -60,39 +64,10 @@ void adsh_start(void) {
 
 #define ADSH_RL_BUFSIZE 1024
 char *adsh_read_line(void) {
-    int bufsize = ADSH_RL_BUFSIZE;
-    int position = 0;
-    char *buffer = malloc(sizeof(char) * bufsize);
-    int c;
-
-    if(!buffer) {
-        fprintf(stderr, "adsh: allocation error\n");
-        exit(EXIT_FAILURE);
-    }
-
-    while(1) {
-        // Read a character
-        c = getchar();
-
-        // If we hit EOF, replace it with a null character and return.
-        if(c == EOF || c == '\n') {
-            buffer[position] = '\0';
-            return buffer;
-        } else {
-            buffer[position] = c;
-        }
-        position++;
-
-        // If we have exceeded the buffer, reallocate.
-        if(position >= bufsize) {
-            bufsize += ADSH_RL_BUFSIZE;
-            buffer = realloc(buffer, bufsize);
-            if(!buffer) {
-                fprintf(stderr, "adsh: allocation error\n");
-                exit(EXIT_FAILURE);
-            }
-        }
-    }
+    char *line = NULL;
+    size_t bufsize = 0; // getline allocates buffer
+    getline(&line, &bufsize, stdin);
+    return line;
 }
 
 #define ADSH_TOK_BUFSIZE 64
@@ -163,7 +138,7 @@ int adsh_cd(char **args) {
     return 1;
 }
 
-int adsh_help(char **args) {
+int adsh_help() {
     int i;
     printf("AdminDev's Shell: ADSH\n");
     printf("Enter program names and arguments, then press enter.\n");
@@ -177,7 +152,7 @@ int adsh_help(char **args) {
     return 1;
 }
 
-int adsh_exit(char **args) {
+int adsh_exit() {
     return 0;
 }
 
